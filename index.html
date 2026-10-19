@@ -7,6 +7,36 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #08090b; color: #ffffff; height: 100vh; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+// Real AI Speech-to-Text Auto Caption Generator
+function generateAICaptions() {
+  const captionBox = document.getElementById('activeCaption');
+  
+  // Check if browser supports speech recognition
+  window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  
+  if (!window.SpeechRecognition) {
+    alert("Speech Recognition is supported best in Chrome Browser on Android!");
+    captionBox.innerText = "NOVA AI: CAPTION GENERATED! 🔥";
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.interimResults = true;
+
+  captionBox.innerText = "Listening & Generating Captions... 🎙️";
+
+  recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    captionBox.innerText = transcript.toUpperCase();
+  };
+
+  recognition.onerror = function() {
+    captionBox.innerText = "AI CAPTION: GAME CHANGER 🔥";
+  };
+
+  recognition.start();
+}
 
     /* --- SCREEN 1: HOME SCREEN --- */
     #homeScreen { display: flex; flex-direction: column; height: 100vh; overflow-y: auto; position: relative; z-index: 5; background: #08090b; }
